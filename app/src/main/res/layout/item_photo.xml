@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingLeft="10dp" android:paddingRight="10dp">
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/prlUserInfo">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:id="@+id/rivProfilePhoto"
+            android:scaleType="fitCenter"
+            app:riv_corner_radius="30dip"
+            app:riv_mutate_background="true"
+            app:riv_tile_mode="repeat"
+            app:riv_oval="true"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/prlUserInfo"
+            android:layout_toRightOf="@+id/rivProfilePhoto"
+            android:layout_toEndOf="@+id/rivProfilePhoto"
+            android:layout_alignBottom="@+id/prlUserInfo"
+            android:layout_centerVertical="true"
+            android:textColor="#0D3C5F"
+            android:textStyle="bold"
+            android:id="@+id/tvUsername"
+            android:layout_marginLeft="10dp"
+            android:text="username"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/prlUserInfo"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/prlUserInfo"
+            android:layout_centerVertical="true"
+            android:id="@+id/tvCreationTime"
+            android:text="timestamp"/>
+    </android.support.percent.PercentRelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivPhoto"
+        android:layout_below="@id/prlUserInfo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:minHeight="50dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Text"
+        android:id="@+id/tvCaption"
+        android:layout_below="@+id/ivPhoto"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="20sp"
+        android:minLines="3"
+        android:ellipsize="end" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvCaption"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/list_comments">
+
+    </LinearLayout>
+
+</RelativeLayout>
