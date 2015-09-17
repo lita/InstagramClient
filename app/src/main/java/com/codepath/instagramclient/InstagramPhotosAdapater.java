@@ -25,6 +25,7 @@ public class InstagramPhotosAdapater extends ArrayAdapter<InstagramPhoto> {
         TextView username;
         TextView creationTime;
         LinearLayout comments;
+        TextView likes;
 
     }
 
@@ -48,6 +49,7 @@ public class InstagramPhotosAdapater extends ArrayAdapter<InstagramPhoto> {
             viewHolder.username = (TextView) convertView.findViewById(R.id.tvUsername);
             viewHolder.comments = (LinearLayout) convertView.findViewById(R.id.list_comments);
             viewHolder.creationTime = (TextView) convertView.findViewById(R.id.tvCreationTime);
+            viewHolder.likes = (TextView) convertView.findViewById(R.id.tvLikes);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (InstagramViewHolder) convertView.getTag();
@@ -74,6 +76,7 @@ public class InstagramPhotosAdapater extends ArrayAdapter<InstagramPhoto> {
 
         viewHolder.username.setText(photo.username);
         viewHolder.creationTime.setText(photo.creationTime);
+        viewHolder.likes.setText(photo.likesCount);
 
         return convertView;
     }

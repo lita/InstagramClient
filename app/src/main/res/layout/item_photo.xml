@@ -2,10 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingBottom="30dp"
     android:paddingLeft="10dp" android:paddingRight="10dp">
 
     <android.support.percent.PercentRelativeLayout
-        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_view_border"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -22,6 +24,8 @@
             android:scaleType="fitCenter"
             app:riv_corner_radius="30dip"
             app:riv_mutate_background="true"
+            app:riv_border_width="1dp"
+            app:riv_border_color="#dddddd"
             app:riv_tile_mode="repeat"
             app:riv_oval="true"
             android:layout_alignParentLeft="true"/>
@@ -53,6 +57,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ivPhoto"
+        android:background="@drawable/shape_view_border"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
         android:layout_below="@id/prlUserInfo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
@@ -62,27 +69,67 @@
         android:scaleType="centerCrop"
         android:minHeight="50dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Text"
-        android:id="@+id/tvCaption"
-        android:layout_below="@+id/ivPhoto"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="20sp"
-        android:minLines="3"
-        android:ellipsize="end" />
-
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tvCaption"
+        android:layout_height="wrap_content"
+        android:id="@+id/captionLayout"
+        android:layout_below="@id/ivPhoto"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/list_comments">
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/shape_view_border"
+        android:padding="15dp"
+        >
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/heartImage"
+            android:src="@drawable/heart"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/tvLikes"
+            android:layout_alignBottom="@+id/tvLikes"
+            android:layout_marginRight="5dp"
+            android:scaleType="centerInside"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvLikes"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/heartImage"
+            android:layout_alignParentTop="true"
+            android:textColor="#4f4f4f"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="2,432 likes" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Text"
+            android:id="@+id/tvCaption"
+            android:layout_below="@+id/tvLikes"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:minLines="3"
+            android:ellipsize="end" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tvCaption"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/list_comments">
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.codepath.instagramclient;
 
 import android.text.format.DateUtils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +14,7 @@ public class InstagramPhoto {
     public String caption;
     public String imageUrl;
     public int imageHeight;
-    public int likesCount;
+    public String likesCount;
     public String creationTime;
     public int totalComments;
     public String profileImageUrl;
@@ -30,5 +31,10 @@ public class InstagramPhoto {
         this.creationTime = this.creationTime.replace(" minutes ago", "m");
         this.creationTime = this.creationTime.replace(" week ago", "w");
         this.creationTime = this.creationTime.replace(" weeks ago", "w");
+    }
+
+    public void setLikesCount(Integer likes) {
+        DecimalFormat formatter = new DecimalFormat("#,###,###,###");
+        this.likesCount = formatter.format(likes) + " likes";
     }
 }

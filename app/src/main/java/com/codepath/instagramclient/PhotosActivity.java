@@ -64,7 +64,7 @@ public class PhotosActivity extends AppCompatActivity {
                         photo.type = photoJson.getString("type");
                         photo.imageUrl = photoJson.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
                         photo.imageHeight = photoJson.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
-                        photo.likesCount = photoJson.getJSONObject("likes").getInt("count");
+                        photo.setLikesCount(photoJson.getJSONObject("likes").getInt("count"));
                         photo.comments = processComments(photoJson.getJSONObject("comments").getJSONArray("data"));
                         photo.profileImageUrl = photoJson.getJSONObject("user").getString("profile_picture");
                         photo.setCreationDate(photoJson.getString("created_time"));
