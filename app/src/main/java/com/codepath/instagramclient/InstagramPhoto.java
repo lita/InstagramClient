@@ -1,40 +1,21 @@
 package com.codepath.instagramclient;
 
-import android.text.format.DateUtils;
+import android.content.Context;
+import android.view.View;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by litacho on 9/15/15.
  */
-public class InstagramPhoto {
-    public static int MAX_COMMENTS = 2;
-    public String username;
-    public String caption;
-    public String imageUrl;
-    public int imageHeight;
-    public String likesCount;
-    public String creationTime;
-    public int totalComments;
-    public String profileImageUrl;
-    public String type;
-    public ArrayList<Comment> comments;
-
-    public void setCreationDate(String creationTime) {
-        //Transform creation timestamp to relative timestamp
-        Long intCreationTime = Long.parseLong(creationTime);
-        this.creationTime = DateUtils.getRelativeTimeSpanString(intCreationTime * 1000).toString();
-        this.creationTime = this.creationTime.replace(" hour ago", "h");
-        this.creationTime = this.creationTime.replace(" hours ago", "h");
-        this.creationTime = this.creationTime.replace(" minute ago", "m");
-        this.creationTime = this.creationTime.replace(" minutes ago", "m");
-        this.creationTime = this.creationTime.replace(" week ago", "w");
-        this.creationTime = this.creationTime.replace(" weeks ago", "w");
-    }
-
-    public void setLikesCount(Integer likes) {
-        DecimalFormat formatter = new DecimalFormat("#,###,###,###");
-        this.likesCount = formatter.format(likes) + " likes";
+public class InstagramPhoto extends InstagramBase {
+    @Override
+    void setView(Context context, InstagramPhotosAdapater.InstagramViewHolder viewHolder) {
+        // Clear out the image view as we could have left over image from recycled view.
+        viewHolder.photo.setImageResource(0);
+        viewHolder.video.setVisibility(View.GONE);
+        viewHolder.photo.setVisibility(View.VISIBLE);
+        // Download the image asynchronously using Picasso
+        Picasso.with(context).load(this.url).placeholder(R.drawable.placeholder).into(viewHolder.photo);
     }
 }

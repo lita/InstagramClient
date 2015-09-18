@@ -30,5 +30,6 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.0'
     compile 'com.makeramen:roundedimageview:2.2.0'
     compile 'com.android.support:percent:23.0.0'
+    compile 'se.emilsjolander:stickylistheaders:2.7.0'
     compile files('libs/org.apache.http.legacy.jar')
 }

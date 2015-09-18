@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class PhotosActivity extends AppCompatActivity {
     public static final String CLIENT_ID = "b87b147ada2f4419b683e5ede0a91820";
-    private ArrayList<InstagramPhoto> photos;
+    private ArrayList<InstagramBase> photos;
     private InstagramPhotosAdapater aPhotos;
     private SwipeRefreshLayout swipeContainer;
 
@@ -56,19 +56,27 @@ public class PhotosActivity extends AppCompatActivity {
                     aPhotos.clear();
                     photos.clear();
                     photosJson = response.getJSONArray("data");
+                    InstagramBase media;
                     for (int i = 0; i < photosJson.length(); i++) {
                         JSONObject photoJson = photosJson.getJSONObject(i);
-                        InstagramPhoto photo = new InstagramPhoto();
-                        photo.username = photoJson.getJSONObject("user").getString("username");
-                        photo.caption = photoJson.getJSONObject("caption").getString("text");
-                        photo.type = photoJson.getString("type");
-                        photo.imageUrl = photoJson.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
-                        photo.imageHeight = photoJson.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
-                        photo.setLikesCount(photoJson.getJSONObject("likes").getInt("count"));
-                        photo.comments = processComments(photoJson.getJSONObject("comments").getJSONArray("data"));
-                        photo.profileImageUrl = photoJson.getJSONObject("user").getString("profile_picture");
-                        photo.setCreationDate(photoJson.getString("created_time"));
-                        photos.add(photo);
+                        String type = photoJson.getString("type");
+                        if (type.equals("video")) {
+                            media = new InstagramVideo();
+                            media.url = photoJson.getJSONObject("videos").getJSONObject("standard_resolution").getString("url");
+                            media.height = photoJson.getJSONObject("videos").getJSONObject("standard_resolution").getInt("height");
+                            media.width = photoJson.getJSONObject("videos").getJSONObject("standard_resolution").getInt("width");
+                        } else {
+                            media = new InstagramPhoto();
+                            media.url = photoJson.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
+                            media.height = photoJson.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
+                        }
+                        media.username = photoJson.getJSONObject("user").getString("username");
+                        media.caption = InstagramBase.processCaptionsToHTML(photoJson.getJSONObject("caption").getString("text"));
+                        media.setLikesCount(photoJson.getJSONObject("likes").getInt("count"));
+                        media.comments = processComments(photoJson.getJSONObject("comments").getJSONArray("data"));
+                        media.profileImageUrl = photoJson.getJSONObject("user").getString("profile_picture");
+                        media.setCreationDate(photoJson.getString("created_time"));
+                        photos.add(media);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -98,7 +106,7 @@ public class PhotosActivity extends AppCompatActivity {
             try {
                 JSONObject commentJson = commentsJson.getJSONObject(i);
                 comment.user = commentJson.getJSONObject("from").getString("username");
-                comment.comment = commentJson.getString("text");
+                comment.comment = InstagramBase.processCaptionsToHTML(commentJson.getString("text"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
