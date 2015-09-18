@@ -1,4 +1,4 @@
-# Project 1 - *Name of App Here*
+# Project 1 - Instagram Client Reader
 
 **Name of your app** is an android app that allows a user to check out popular photos from Instagram. The app utilizes Instagram API to display images and basic image information to the user.
 
