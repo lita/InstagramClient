@@ -5,21 +5,25 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Created by litacho on 9/15/15.
  */
-public class InstagramPhotosAdapater extends ArrayAdapter<InstagramBase> {
+public class InstagramPhotosAdapater extends BaseAdapter implements StickyListHeadersAdapter {
+    ArrayList<InstagramBase> medias;
+    Context thisContext;
+
     public static class InstagramViewHolder {
         TextView caption;
         ImageView photo;
@@ -28,30 +32,32 @@ public class InstagramPhotosAdapater extends ArrayAdapter<InstagramBase> {
         TextView creationTime;
         LinearLayout comments;
         TextView likes;
-        VideoView video;
     }
 
-    public InstagramPhotosAdapater(Context context, List objects) {
-        super(context, android.R.layout.simple_list_item_1, objects);
+    public static class InstagramHeaderViewHolder {
+        RoundedImageView profilePhoto;
+        TextView username;
+        TextView creationTime;
+    }
+
+    public InstagramPhotosAdapater(Context context, ArrayList objects) {
+        medias = objects;
+        thisContext = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        InstagramBase media = getItem(position);
+        InstagramBase media = medias.get(position);
         InstagramViewHolder viewHolder;
 
         // Check if this view is recycled or if we need to create a new View.
         if (convertView == null) {
             // Create a new view from template
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_photo, parent, false);
+            convertView = LayoutInflater.from(thisContext).inflate(R.layout.item_photo, parent, false);
             viewHolder = new InstagramViewHolder();
             viewHolder.caption = (TextView) convertView.findViewById(R.id.tvCaption);
             viewHolder.photo = (ImageView) convertView.findViewById(R.id.ivPhoto);
-            viewHolder.video = (VideoView) convertView.findViewById(R.id.vvVideo);
-            viewHolder.profilePhoto= (RoundedImageView) convertView.findViewById(R.id.rivProfilePhoto);
-            viewHolder.username = (TextView) convertView.findViewById(R.id.tvUsername);
             viewHolder.comments = (LinearLayout) convertView.findViewById(R.id.list_comments);
-            viewHolder.creationTime = (TextView) convertView.findViewById(R.id.tvCreationTime);
             viewHolder.likes = (TextView) convertView.findViewById(R.id.tvLikes);
             convertView.setTag(viewHolder);
         } else {
@@ -62,23 +68,69 @@ public class InstagramPhotosAdapater extends ArrayAdapter<InstagramBase> {
         viewHolder.comments.removeAllViews();
         for (int i = 0; i < media.comments.size(); i++) {
             Comment comment = media.comments.get(i);
-            View line = LayoutInflater.from(getContext()).inflate(R.layout.inside_row, parent, false);
+            View line = LayoutInflater.from(thisContext).inflate(R.layout.inside_row, parent, false);
             TextView tvComment = (TextView) line.findViewById(R.id.tvComment);
             tvComment.setText(Html.fromHtml(comment.user + " " + comment.comment));
             viewHolder.comments.addView(line);
         }
 
         // Clear out the image view as we could have left over image from recycled view.
-        media.setView(getContext(), viewHolder);
+        media.setView(thisContext, viewHolder);
 
-        // Clear out the profile view
-        viewHolder.profilePhoto.setImageResource(0);
-        Picasso.with(getContext()).load(media.profileImageUrl).into(viewHolder.profilePhoto);
-
-        viewHolder.username.setText(media.username);
-        viewHolder.creationTime.setText(media.creationTime);
         viewHolder.likes.setText(media.likesCount);
 
         return convertView;
+    }
+
+    @Override
+    public int getCount() {
+        return medias.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return medias.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getHeaderView(int position, View convertView, ViewGroup parent) {
+        InstagramBase media = medias.get(position);
+
+        InstagramHeaderViewHolder holder;
+        if (convertView == null) {
+            holder = new InstagramHeaderViewHolder();
+            convertView = LayoutInflater.from(thisContext).inflate(R.layout.header, parent, false);
+            holder.username = (TextView) convertView.findViewById(R.id.tvUsername);
+            holder.creationTime = (TextView) convertView.findViewById(R.id.tvCreationTime);
+            holder.profilePhoto = (RoundedImageView) convertView.findViewById(R.id.rivProfilePhoto);
+            convertView.setTag(holder);
+        } else {
+            holder = (InstagramHeaderViewHolder) convertView.getTag();
+        }
+
+
+        // Clear out the profile view
+        holder.profilePhoto.setImageResource(0);
+        Picasso.with(thisContext).load(media.profileImageUrl).into(holder.profilePhoto);
+
+        holder.username.setText(media.username);
+        holder.creationTime.setText(media.creationTime);
+
+        return convertView;
+
+    }
+
+    @Override
+    public long getHeaderId(int i) {
+        return i;
+    }
+
+    public void clear() {
+        medias.clear();
     }
 }

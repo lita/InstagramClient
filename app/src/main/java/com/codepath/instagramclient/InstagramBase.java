@@ -12,7 +12,8 @@ import java.util.ArrayList;
 abstract class InstagramBase {
     public static int MAX_COMMENTS = 2;
     public String username;
-    public String url;
+    public String videoUrl;
+    public String imageUrl;
     public int height;
     public int width;
     public String caption;
@@ -22,6 +23,12 @@ abstract class InstagramBase {
     public String profileImageUrl;
     public String type;
     public ArrayList<Comment> comments;
+
+    protected VideoPlayback callback;
+
+    public interface VideoPlayback {
+        public void launchVideoPlayer (String videoUrl);
+    }
 
     public void setCreationDate(String creationTime) {
         //Transform creation timestamp to relative timestamp
@@ -58,4 +65,6 @@ abstract class InstagramBase {
     }
 
     abstract void setView (Context context, InstagramPhotosAdapater.InstagramViewHolder viewHolder);
+
+    abstract void setCallback(VideoPlayback callback);
 }
